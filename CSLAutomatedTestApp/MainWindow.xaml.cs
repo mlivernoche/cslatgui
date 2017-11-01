@@ -51,7 +51,7 @@ namespace CSLAutomatedTestApp
 
         public MainWindow()
         {
-            CudaSettings.Load(@";C:\Users\unit0ne\Documents\Visual Studio 2015\Projects\CudaSharperLibrary\x64\Release\");
+            CudaSettings.Load();
             InitializeComponent();
             Bindings = new DataBindings();
             DataContext = Bindings;
