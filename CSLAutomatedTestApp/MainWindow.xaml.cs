@@ -17,6 +17,7 @@ using CudaSharper;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace CSLAutomatedTestApp
 {
@@ -108,19 +109,19 @@ namespace CSLAutomatedTestApp
 
         private async void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            var tasks = new List<Task<CudaDeviceTestFp32>>();
+            var tasks = new List<CudaDeviceTestFp32>();
 
             foreach (var parameters in Bindings.ParametersList)
             {
                 var local_parameters = parameters;
-                tasks.Add(Task.Run(() => new CudaDeviceTestFp32(local_parameters)));
+                var progress = new Progress<double>(i => { ProgressPerentageLabel.Content = string.Format("Test #{1}: {0:##0.000%}", i, tasks.Count + 1); });
+                var asyncTest = Task.Run(() => new CudaDeviceTestFp32(local_parameters, progress));
+                tasks.Add(await asyncTest);
+                ProgressPerentageLabel.Content = string.Format("Test #{0}: Finished", tasks.Count);
             }
 
-            await Task.WhenAll(tasks);
-
-            foreach (var test in tasks)
+            foreach (var testResults in tasks)
             {
-                var testResults = await test;
                 AddTextToTestResultTextBox(new CudaTestString(testResults.Results).ToString());
 
                 var tree_view_level1 = new TreeViewItem() { Header = $"Results for GPU{testResults.DeviceId}" };

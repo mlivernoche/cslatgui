@@ -27,10 +27,10 @@
                 <local:TestParallelismCollection x:Key="ParallelismComboBoxOptions"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridComboBoxColumn Header="GPU Name" ItemsSource="{StaticResource GpuDeviceList}" DisplayMemberPath="DeviceName" SelectedValuePath="DeviceId" SelectedValueBinding="{Binding DeviceId}"/>
-                <DataGridTextColumn Header="Numbers of Tests" Binding="{Binding NumOfTests}"/>
+                <DataGridComboBoxColumn Header="GPU name" ItemsSource="{StaticResource GpuDeviceList}" DisplayMemberPath="DeviceName" SelectedValuePath="DeviceId" SelectedValueBinding="{Binding DeviceId}"/>
+                <DataGridTextColumn Header="Numbers of tests" Binding="{Binding NumOfTests}"/>
                 <DataGridTextColumn Header="Range per test" Binding="{Binding Range}"/>
-                <DataGridComboBoxColumn Header="Use Parallelism?" ItemsSource="{StaticResource ParallelismComboBoxOptions}" DisplayMemberPath="OptionName" SelectedValuePath="DegreeOfParallelism" SelectedValueBinding="{Binding DegreeOfParallelism}"/>
+                <DataGridComboBoxColumn Header="Use parallelism?" ItemsSource="{StaticResource ParallelismComboBoxOptions}" DisplayMemberPath="OptionName" SelectedValuePath="DegreeOfParallelism" SelectedValueBinding="{Binding DegreeOfParallelism}"/>
             </DataGrid.Columns>
         </DataGrid>
         <DockPanel DockPanel.Dock="Top">
@@ -38,21 +38,20 @@
             <Button x:Name="RunTestsButton" Content="Run Tests" Grid.Column="0" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="6" Padding="6" IsEnabled="False" Click="Button_Click_3"/>
             <Button x:Name="ClearResultsTextboxButton" Content="Clear" Grid.Column="1" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="6" Padding="6" Click="Button_Click_2" />
         </DockPanel>
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Console Output" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
-            <Label Grid.Column="1" Content="Test Results Browser" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
-        </Grid>
+        <Label Content="Progress: 0%" x:Name="ProgressPerentageLabel" DockPanel.Dock="Top"/>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Margin="6" IsReadOnly="True" x:Name="TextBoxOutput" FontSize="20"/>
-            <TreeView Grid.Column="1" Margin="6" x:Name="TestResultsTreeView"/>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Console Output" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Test Results Browser" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
+            <TextBox Grid.Row="1" Grid.Column="0" Margin="6" IsReadOnly="True" x:Name="TextBoxOutput" FontSize="20"/>
+            <TreeView Grid.Row="1" Grid.Column="1" Margin="6" x:Name="TestResultsTreeView"/>
         </Grid>
     </DockPanel>
 </Window>
