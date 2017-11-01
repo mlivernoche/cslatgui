@@ -1,0 +1,58 @@
+﻿<Window x:Class="CSLAutomatedTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CSLAutomatedTestApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <DockPanel>
+        <DockPanel.Resources>
+            <local:DetectedGpuCollection x:Key="GpuDeviceList"/>
+        </DockPanel.Resources>
+        <Label Content="Detected CUDA-enabled GPUs" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top"/>
+        <DataGrid ItemsSource="{StaticResource GpuDeviceList}" AutoGenerateColumns="False" DockPanel.Dock="Top" Margin="6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="GPU ID" Binding="{Binding DeviceId}"/>
+                <DataGridTextColumn Header="GPU Name" Binding="{Binding DeviceName}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Defined Test Parameters" FontSize="20" FontWeight="Bold" DockPanel.Dock="Top"/>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Content="Add Test" Margin="6" Padding="6" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="Button_Click"/>
+            <Button Content="Clear Tests" Margin="6" Padding="6" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="Button_Click_4"/>
+        </DockPanel>
+        <DataGrid ItemsSource="{Binding ParametersList}" AutoGenerateColumns="False" DockPanel.Dock="Top" Margin="6" BeginningEdit="DataGrid_BeginningEdit">
+            <DataGrid.Resources>
+                <local:TestParallelismCollection x:Key="ParallelismComboBoxOptions"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn Header="GPU Name" ItemsSource="{StaticResource GpuDeviceList}" DisplayMemberPath="DeviceName" SelectedValuePath="DeviceId" SelectedValueBinding="{Binding DeviceId}"/>
+                <DataGridTextColumn Header="Numbers of Tests" Binding="{Binding NumOfTests}"/>
+                <DataGridTextColumn Header="Range per test" Binding="{Binding Range}"/>
+                <DataGridComboBoxColumn Header="Use Parallelism?" ItemsSource="{StaticResource ParallelismComboBoxOptions}" DisplayMemberPath="OptionName" SelectedValuePath="DegreeOfParallelism" SelectedValueBinding="{Binding DegreeOfParallelism}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel DockPanel.Dock="Top">
+            <Button x:Name="ConfirmParametersButton" Content="Confirm parameters" Grid.Column="0" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="6" Padding="6" Click="Button_Click_1"/>
+            <Button x:Name="RunTestsButton" Content="Run Tests" Grid.Column="0" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="6" Padding="6" IsEnabled="False" Click="Button_Click_3"/>
+            <Button x:Name="ClearResultsTextboxButton" Content="Clear" Grid.Column="1" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="6" Padding="6" Click="Button_Click_2" />
+        </DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Console Output" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
+            <Label Grid.Column="1" Content="Test Results Browser" FontSize="16" FontWeight="Bold" DockPanel.Dock="Top"/>
+        </Grid>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Margin="6" IsReadOnly="True" x:Name="TextBoxOutput" FontSize="20"/>
+            <TreeView Grid.Column="1" Margin="6" x:Name="TestResultsTreeView"/>
+        </Grid>
+    </DockPanel>
+</Window>
